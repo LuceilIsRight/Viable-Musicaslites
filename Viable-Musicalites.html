@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Recommendations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f4f8;
+            background-image: linear-gradient(to bottom, #a3d8f4, #f0f4f8);
+            color: #34495e;
+        }
 
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .guitar-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .guitar-item {
+            border-bottom: 1px solid #bdc3c7;
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .guitar-item:last-child {
+            border-bottom: none;
+        }
+
+        .guitar-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .guitar-price {
+            font-size: 16px;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+
+        .guitar-rating {
+            font-size: 16px;
+            color: #f1c40f; /* Yellow for stars */
+            margin-bottom: 10px;
+        }
+
+        .guitar-link {
+            display: inline-block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .guitar-link:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                max-width: 90%;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .guitar-name,
+            .guitar-price,
+            .guitar-rating {
+                font-size: 14px;
+            }
+
+            .guitar-link {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guitar Recommendations</h1>
+        <ul class="guitar-list" id="guitarList"></ul>
+    </div>
+
+    <script>
+        // Mock data for guitars (simulating Amazon products)
+        const guitars = [
+            {
+                name: "Fender CD-60S Dreadnought Acoustic Guitar",
+                price: 199.99,
+                rating: 4.7,
+                url: "https://www.amazon.com/Fender-CD-60S-Dreadnought-Acoustic-Guitar/dp/B07G4K7X9K"
+            },
+            {
+                name: "Yamaha FG800 Acoustic Guitar",
+                price: 229.99,
+                rating: 4.6,
+                url: "https://www.amazon.com/Yamaha-FG800-Acoustic-Guitar-Natural/dp/B01CFRX58I"
+            },
+            {
+                name: "Squier Classic Vibe 60s Stratocaster",
+                price: 429.99,
+                rating: 4.8,
+                url: "https://www.amazon.com/Squier-Classic-Vibe-60s-Stratocaster/dp/B07N6W6JZG"
+            },
+            {
+                name: "Epiphone Masterbilt Texan Acoustic",
+                price: 599.99,
+                rating: 4.5,
+                url: "https://www.amazon.com/Epiphone-Masterbilt-Texan-Acoustic-Guitar/dp/B07ZTK7R7P"
+            },
+            {
+                name: "Donner DST-100S Electric Guitar Kit",
+                price: 189.99,
+                rating: 4.4,
+                url: "https://www.amazon.com/Donner-DST-100S-Electric-Guitar-Beginner/dp/B07K9N3W3Q"
+            }
+        ];
+
+        // Function to generate star symbols based on rating
+        function getStarRating(rating) {
+            const fullStar = "★";
+            const emptyStar = "☆";
+            const maxStars = 5;
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = fullStar.repeat(fullStars);
+            if (hasHalfStar && fullStars < maxStars) {
+                stars += "½";
+            }
+            stars += emptyStar.repeat(maxStars - Math.ceil(rating));
+            return `${stars} (${rating.toFixed(1)})`;
+        }
+
+        // Function to display guitars
+        function displayGuitars() {
+            const guitarList = document.getElementById("guitarList");
+            guitarList.innerHTML = ""; // Clear the list
+
+            guitars.forEach(guitar => {
+                const li = document.createElement("li");
+                li.className = "guitar-item";
+
+                const name = document.createElement("div");
+                name.className = "guitar-name";
+                name.textContent = guitar.name;
+
+                const price = document.createElement("div");
+                price.className = "guitar-price";
+                price.textContent = `$${guitar.price.toFixed(2)}`;
+
+                const rating = document.createElement("div");
+                rating.className = "guitar-rating";
+                rating.textContent = getStarRating(guitar.rating);
+
+                const link = document.createElement("a");
+                link.className = "guitar-link";
+                link.href = guitar.url;
+                link.target = "_blank"; // Open in new tab
+                link.textContent = "Buy Now";
+
+                li.appendChild(name);
+                li.appendChild(price);
+                li.appendChild(rating);
+                li.appendChild(link);
+                guitarList.appendChild(li);
+            });
+        }
+
+        // Initialize the page
+        displayGuitars();
+    </script>
+</body>
+</html>
